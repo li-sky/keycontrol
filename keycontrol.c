@@ -9,7 +9,7 @@ void KeyPressHandler(key_callback onKeydownBeginCallback, key_callback onKeydown
         switch (keyStatus)
         {
             case 0x00:
-                //key is not pressed, and is not ready, so check is count to 10ms, and if yes change keystate; if not do nothing
+                //key is not pressed, and is not ready, so check if count has reached 10, and if yes change keystate
                 if (*count == (unsigned long)0x0000000A) {
                     if (onKeyupReadyCallback != NULL)
                     onKeyupReadyCallback(count, countStep, timer, TimerConfigure);
@@ -21,10 +21,10 @@ void KeyPressHandler(key_callback onKeydownBeginCallback, key_callback onKeydown
                 //nothing to be done
                 break;
             case 0x02:
-                //key is pressed, and is not ready, but key is now up, so this has to be ignored
+                // in keystatus key is pressed and not ready, but key is now up, so this has to be ignored
                 break;
             case 0x03:
-                //key is pressed, and is ready, but key is now up, so begin key 
+                // key is pressed and ready, but key is now up, so begin key up process
                 if (onKeyupBeginCallback != NULL)
                 onKeyupBeginCallback(count, countStep, timer, TimerConfigure);
                 else defaultKeyUpBeginCallback(count, countStep, timer, TimerConfigure);
@@ -34,10 +34,10 @@ void KeyPressHandler(key_callback onKeydownBeginCallback, key_callback onKeydown
         switch (keyStatus)
         {
             case 0x00:
-                //key is not pressed, and is not ready, but key is now down, so this has to be ignored
+                //key is not pressed, and is not ready, so nothing to be done
                 break;
             case 0x01:
-                //key is ready, but key is now down, so begin key down
+                //key is ready, and key is now down, so begin key down process
                 if (onKeydownBeginCallback != NULL)
                 onKeydownBeginCallback(count, countStep, timer, TimerConfigure);
                 else defaultKeyDownBeginCallback(count, countStep, timer, TimerConfigure);
